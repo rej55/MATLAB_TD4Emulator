@@ -15,11 +15,12 @@ i = 1;
 while (i <= length(ProgramMemory))
     ImData = ProgramMemory(i, 1:4);
     Operation = ProgramMemory(i, 5:8);
+    i = i + 1;
     if(all(Operation==[1 1 1 1])) % JMP
-        i = bi2de(ImData); 
+        i = bi2de(ImData) + 1; 
     elseif(all(Operation==[0 1 1 1])) % JNC
-        if(CarryFlag == 1)
-            i = bi2de(ImData);
+        if(CarryFlag == 0)
+            i = bi2de(ImData) + 1;
         end
     elseif(all(Operation==[1 0 0 1])) % OUT B
         OutputPort = Register(2, :);
@@ -45,6 +46,5 @@ while (i <= length(ProgramMemory))
         disp('Error!');
         break;
     end
-    disp(['i = ' num2str(i, '%02d') ': RegisterA = ' num2str(Register(1, :)) ', RegisterB = ' num2str(Register(2, :)) ', CarryFlag = ' num2str(CarryFlag)]);
-    i = i + 1;
+    disp(['i = ' num2str(i-1, '%02d') ': RegisterA = ' num2str(Register(1, :)) ', RegisterB = ' num2str(Register(2, :)) ', CarryFlag = ' num2str(CarryFlag)]);
 end
